@@ -8,26 +8,127 @@ datasource db {
 }
 
 // ============================ ENUMS ============================
-enum RoleName { SUPER_ADMIN HR_ADMIN MANAGER EMPLOYEE }
-enum Gender { MALE FEMALE OTHER PREFER_NOT_TO_SAY }
-enum EmploymentType { FULL_TIME PART_TIME CONTRACT INTERN }
-enum EmploymentStatus { ACTIVE INACTIVE ON_LEAVE TERMINATED RESIGNED }
-enum AttendanceStatus { PRESENT ABSENT LATE HALF_DAY ON_LEAVE HOLIDAY }
-enum CorrectionStatus { NONE PENDING APPROVED REJECTED }
-enum LeaveStatus { PENDING APPROVED REJECTED CANCELLED }
-enum PayrollStatus { ESTIMATED FINALIZED PAID }
-enum ComponentType { EARNING DEDUCTION }
-enum AmountType { FIXED PERCENT }
-enum VacancyStatus { DRAFT OPEN CLOSED }
-enum ApplicationStage { APPLIED SCREENING SHORTLISTED INTERVIEW SELECTED REJECTED HIRED }
-enum InterviewStatus { SCHEDULED COMPLETED CANCELLED NO_SHOW }
-enum ReviewStatus { DRAFT SELF_ASSESSMENT MANAGER_REVIEW COMPLETED }
-enum GoalStatus { NOT_STARTED IN_PROGRESS COMPLETED CANCELLED }
-enum TaskStatus { TODO IN_PROGRESS UNDER_REVIEW COMPLETED }
-enum TaskPriority { LOW MEDIUM HIGH URGENT }
-enum DocumentCategory { OFFER_LETTER APPOINTMENT_LETTER EXPERIENCE_CERTIFICATE IDENTITY POLICY OTHER }
-enum DocumentVisibility { PRIVATE_EMPLOYEE HR_ONLY ALL_EMPLOYEES }
-enum AnnouncementType { GENERAL IMPORTANT HOLIDAY EVENT }
+enum RoleName {
+  SUPER_ADMIN
+  HR_ADMIN
+  MANAGER
+  EMPLOYEE
+}
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+  PREFER_NOT_TO_SAY
+}
+enum EmploymentType {
+  FULL_TIME
+  PART_TIME
+  CONTRACT
+  INTERN
+}
+enum EmploymentStatus {
+  ACTIVE
+  INACTIVE
+  ON_LEAVE
+  TERMINATED
+  RESIGNED
+}
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  HALF_DAY
+  ON_LEAVE
+  HOLIDAY
+}
+enum CorrectionStatus {
+  NONE
+  PENDING
+  APPROVED
+  REJECTED
+}
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CANCELLED
+}
+enum PayrollStatus {
+  ESTIMATED
+  FINALIZED
+  PAID
+}
+enum ComponentType {
+  EARNING
+  DEDUCTION
+}
+enum AmountType {
+  FIXED
+  PERCENT
+}
+enum VacancyStatus {
+  DRAFT
+  OPEN
+  CLOSED
+}
+enum ApplicationStage {
+  APPLIED
+  SCREENING
+  SHORTLISTED
+  INTERVIEW
+  SELECTED
+  REJECTED
+  HIRED
+}
+enum InterviewStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+enum ReviewStatus {
+  DRAFT
+  SELF_ASSESSMENT
+  MANAGER_REVIEW
+  COMPLETED
+}
+enum GoalStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  UNDER_REVIEW
+  COMPLETED
+}
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+enum DocumentCategory {
+  OFFER_LETTER
+  APPOINTMENT_LETTER
+  EXPERIENCE_CERTIFICATE
+  IDENTITY
+  POLICY
+  OTHER
+}
+enum DocumentVisibility {
+  PRIVATE_EMPLOYEE
+  HR_ONLY
+  ALL_EMPLOYEES
+}
+enum AnnouncementType {
+  GENERAL
+  IMPORTANT
+  HOLIDAY
+  EVENT
+}
 enum NotificationType {
   LEAVE_APPROVED
   LEAVE_REJECTED
