@@ -18,8 +18,6 @@ export const lookups = asyncHandler(async (_req, res) => {
   ]);
   res.json({ data: { departments, designations, leaveTypes, people } });
 });
-
-// ---------- departments ----------
 export const listDepartments = asyncHandler(async (_req, res) => {
   const rows = await prisma.department.findMany({
     include: { head: { select: { id: true, firstName: true, lastName: true } }, _count: { select: { employees: true } } },
@@ -58,8 +56,6 @@ export const deleteDepartment = asyncHandler(async (req, res) => {
   audit(req, 'department.delete', 'Department', req.params.id);
   res.json({ data: { message: 'Department deleted. Its employees are now unassigned.' } });
 });
-
-// ---------- designations ----------
 export const listDesignations = asyncHandler(async (_req, res) => {
   res.json({ data: await prisma.designation.findMany({ include: { _count: { select: { employees: true } } }, orderBy: { level: 'desc' } }) });
 });
@@ -73,8 +69,6 @@ export const deleteDesignation = asyncHandler(async (req, res) => {
   audit(req, 'designation.delete', 'Designation', req.params.id);
   res.json({ data: { message: 'Job title deleted' } });
 });
-
-// ---------- holidays ----------
 export const listHolidays = asyncHandler(async (req, res) => {
   const year = Number(req.query.year) || new Date().getFullYear();
   res.json({ data: await prisma.holiday.findMany({ where: { date: { gte: new Date(Date.UTC(year, 0, 1)), lte: new Date(Date.UTC(year, 11, 31)) } }, orderBy: { date: 'asc' } }) });
