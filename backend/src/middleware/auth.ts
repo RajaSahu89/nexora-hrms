@@ -7,7 +7,6 @@ import { AppError, asyncHandler } from '../utils/http';
 export const HR = ['SUPER_ADMIN', 'HR_ADMIN'];
 export const HR_MGR = ['SUPER_ADMIN', 'HR_ADMIN', 'MANAGER'];
 
-/** Verifies the bearer token, reloads the user from the DB (so disabled users are cut off immediately). */
 export const authenticate = asyncHandler(async (req, _res, next) => {
   const h = req.headers.authorization;
   if (!h?.startsWith('Bearer ')) throw new AppError(401, 'Authentication required');
