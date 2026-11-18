@@ -61,7 +61,6 @@ export const update = asyncHandler(async (req, res) => {
   const b = parseOrThrow(taskUpdateSchema, req.body);
   const isOwnerOrManager = isHR(u) || t.creatorId === u.employeeId || u.role === 'MANAGER';
   if (!isOwnerOrManager) {
-    // assignee-only users may change progress/status, nothing else
     const allowed = ['status', 'progress'];
     if (Object.keys(b).some((k) => !allowed.includes(k))) throw forbidden('You can only update status and progress of tasks assigned to you');
   }
