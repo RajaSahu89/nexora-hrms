@@ -22,7 +22,6 @@ export const list = asyncHandler(async (req, res) => {
     if (q.employeeId) where.employeeId = q.employeeId;
     if (q.status) where.status = q.status as any;
   } else {
-    // Sensitive: everyone else sees only their own FINALIZED/PAID payroll, never estimates.
     where.employeeId = u.employeeId ?? '__none__';
     where.status = { in: ['FINALIZED', 'PAID'] };
   }
