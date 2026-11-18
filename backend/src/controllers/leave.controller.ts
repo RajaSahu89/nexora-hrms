@@ -121,8 +121,6 @@ export const cancel = asyncHandler(async (req, res) => {
   audit(req, 'leave.cancel', 'LeaveRequest', leave.id);
   res.json({ data: { message: 'Leave cancelled' } });
 });
-
-// ---------- leave policies (types) ----------
 export const listTypes = asyncHandler(async (_req, res) => {
   res.json({ data: await prisma.leaveType.findMany({ orderBy: { name: 'asc' } }) });
 });
