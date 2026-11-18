@@ -5,7 +5,6 @@ import { env } from '../config/env';
 import { AppError } from '../utils/http';
 import { HttpError } from '../utils/httpError';
 
-// `error` is the key the existing UI/rate-limiter use; `message` is kept for convenience.
 const send = (res: Response, status: number, msg: string, details?: unknown) => res.status(status).json({ error: msg, message: msg, details });
 export const notFound = (_req: Request, res: Response) => send(res, 404, 'Route not found');
 
