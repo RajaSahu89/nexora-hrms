@@ -5,7 +5,6 @@ import { api, errMsg } from '../services/api';
 import { useToast } from '../contexts/ToastContext';
 import { fmtTime, hours } from '../utils/format';
 
-/** Employee self-service check in / out / break card. `att` = today's attendance record (or null). */
 export default function CheckInCard({ att, onChange }: { att: any; onChange: () => void }) {
   const { toast } = useToast();
   const [busy, setBusy] = useState('');
