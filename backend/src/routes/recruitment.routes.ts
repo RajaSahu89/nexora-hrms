@@ -8,7 +8,7 @@ import { audit } from '../utils/audit';
 import { RESUME_MIMES, makeUpload, removeFile, uploadPath, verifyUpload } from '../utils/upload';
 import { optNum, optStr } from '../validators/common';
 
-const r = Router(); // mounted behind HR-only guard in app.ts
+const r = Router();
 const STAGES = ['APPLIED', 'SCREENING', 'SHORTLISTED', 'INTERVIEW', 'SELECTED', 'REJECTED', 'HIRED'] as const;
 
 r.get('/vacancies', asyncHandler(async (_req, res) => {
