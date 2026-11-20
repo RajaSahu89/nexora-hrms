@@ -56,7 +56,6 @@ app.use('/api/performance', authenticate, performanceRoutes);
 app.use('/api/dashboard', authenticate, dashboardRoutes);
 app.use('/api/reports', authenticate, reportRoutes);
 
-// One-server deployment: if the frontend has been built, serve it (and its client-side routes) from here.
 const webDist = path.resolve(env.root, 'frontend/dist');
 if (fs.existsSync(path.join(webDist, 'index.html'))) {
   app.use(express.static(webDist, { index: false, maxAge: '1h' }));
