@@ -40,13 +40,12 @@ export default function Settings() {
   );
 }
 
-/** One inline form per settings key; saves with PUT /settings/key/:key (HR only). */
 function KeyForm({ k, title, help, fields, canEdit = true, extra, afterSave }: { k: string; title: string; help?: string; fields: F[]; canEdit?: boolean; extra?: React.ReactNode; afterSave?: (v: any) => void }) {
   const { toast } = useToast();
   const { data, loading, reload } = useApi<any>('/settings');
   const cur = data?.[k] ?? {};
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<any>({ defaultValues: cur });
-  useEffect(() => { reset(cur); }, [data]); // eslint-disable-line
+  useEffect(() => { reset(cur); }, [data]);
   const submit = handleSubmit(async (v) => {
     const value = { ...cur };
     fields.forEach((f) => { value[f.name] = f.type === 'number' ? Number(v[f.name]) : v[f.name]; });
