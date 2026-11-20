@@ -13,7 +13,6 @@ const empSel = { select: { id: true, firstName: true, lastName: true, employeeCo
 const inScope = async (req: any, employeeId: string) => !!(await prisma.employee.findFirst({ where: { AND: [{ id: employeeId }, scopeWhere(req.auth)] }, select: { id: true } }));
 const isTeamLead = (req: any) => req.auth.role === 'MANAGER' || isHR(req.auth.role);
 
-// ---- Goals / KPIs ----
 r.get('/goals', asyncHandler(async (req, res) => {
   const q: any = req.query;
   res.json(await prisma.employeeGoal.findMany({
@@ -41,7 +40,6 @@ r.delete('/goals/:id', asyncHandler(async (req, res) => {
   res.json({ ok: true });
 }));
 
-// ---- Reviews ----
 r.get('/reviews', asyncHandler(async (req, res) => {
   res.json(await prisma.performanceReview.findMany({
     where: { employee: scopeWhere(req.auth!) }, include: { employee: empSel, reviewer: { select: { firstName: true, lastName: true } } }, orderBy: { periodEnd: 'desc' }, take: 300,
