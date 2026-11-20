@@ -1,4 +1,3 @@
-# Render Blueprint: one web service (API + website) and one PostgreSQL database.
 services:
   - type: web
     name: nexora-hrms
