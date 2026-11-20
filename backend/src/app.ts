@@ -36,7 +36,6 @@ app.use(express.json({ limit: '1mb' }));
 app.use(cookieParser());
 app.use('/api', rateLimit({ windowMs: env.rateWindow, max: env.rateMax, standardHeaders: true, legacyHeaders: false }));
 
-// Only profile photos and the company logo are public; documents/resumes require auth + permission checks.
 app.use('/uploads/employees', express.static(uploadPath('employees'), { index: false, dotfiles: 'deny' }));
 app.use('/uploads/company', express.static(uploadPath('company'), { index: false, dotfiles: 'deny' }));
 
