@@ -17,7 +17,6 @@ r.get('/', asyncHandler(async (req, res) => {
     orderBy: { name: 'asc' },
     include: { head: { select: { id: true, firstName: true, lastName: true } }, _count: { select: { employees: true } } },
   });
-  // budget is financial data: HR only
   res.json(rows.map((d) => (isHR(req.auth!.role) ? d : { ...d, budget: null })));
 }));
 
