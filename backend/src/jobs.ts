@@ -3,7 +3,6 @@ import { employeeUserId, hrUserIds, notifyUsers } from './utils/notify';
 
 const startOfToday = () => { const d = new Date(); d.setHours(0, 0, 0, 0); return d; };
 
-/** Hourly: task-deadline and document-expiry reminders (each sent at most once per day). */
 async function run() {
   try {
     const soon = new Date(Date.now() + 24 * 3600e3);
