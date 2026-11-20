@@ -15,7 +15,6 @@ export function useApi<T = any>(url: string | null, params?: Record<string, any>
       .catch((e) => { if (!off) setError(errMsg(e)); })
       .finally(() => { if (!off) setLoading(false); });
     return () => { off = true; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url, key, tick]);
   const reload = useCallback(() => setTick((t) => t + 1), []);
   return { data, loading, error, reload, setData };
