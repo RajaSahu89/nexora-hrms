@@ -12,7 +12,6 @@ import { isHR } from '../utils/scope';
 const r = Router();
 const KEYS = ['company.profile', 'attendance.rules', 'payroll.config'];
 
-// Lookups used by dropdowns across the app
 r.get('/lookups', asyncHandler(async (req, res) => {
   const [departments, designations, leaveTypes, managers] = await Promise.all([
     prisma.department.findMany({ select: { id: true, name: true }, orderBy: { name: 'asc' } }),
@@ -50,7 +49,6 @@ r.post('/logo', requireRole(...HR), makeUpload('company', IMAGE_MIMES, 2), verif
   res.json({ logoUrl: value.logoUrl });
 }));
 
-// Holidays
 r.get('/holidays', asyncHandler(async (_req, res) => res.json(await prisma.holiday.findMany({ orderBy: { date: 'asc' } }))));
 r.post('/holidays', requireRole(...HR), validate(z.object({ name: z.string().trim().min(2).max(80), date: dateStr, isOptional: z.boolean().optional() })), asyncHandler(async (req, res) => {
   const h = await prisma.holiday.create({ data: { name: req.body.name, date: new Date(req.body.date.slice(0, 10)), isOptional: !!req.body.isOptional } });
@@ -59,7 +57,6 @@ r.post('/holidays', requireRole(...HR), validate(z.object({ name: z.string().tri
 }));
 r.delete('/holidays/:id', requireRole(...HR), asyncHandler(async (req, res) => { await prisma.holiday.delete({ where: { id: req.params.id } }); res.json({ ok: true }); }));
 
-// Job titles
 r.post('/designations', requireRole(...HR), validate(z.object({ title: z.string().trim().min(2).max(80), level: z.coerce.number().int().min(1).max(20).default(1) })), asyncHandler(async (req, res) => {
   res.status(201).json(await prisma.designation.create({ data: req.body }));
 }));
@@ -70,7 +67,6 @@ r.delete('/designations/:id', requireRole(...HR), asyncHandler(async (req, res) 
   res.json({ ok: true });
 }));
 
-// Leave policies
 r.post('/leave-types', requireRole(...HR), validate(z.object({ name: z.string().trim().min(2).max(60), code: z.string().trim().min(1).max(8).toUpperCase(), defaultDays: z.coerce.number().min(0).max(365), isPaid: z.boolean().default(true), description: optStr(200) })), asyncHandler(async (req, res) => {
   res.status(201).json(await prisma.leaveType.create({ data: req.body }));
 }));
@@ -80,7 +76,6 @@ r.put('/leave-types/:id', requireRole(...HR), validate(z.object({ defaultDays: z
   res.json(t);
 }));
 
-// Users & permissions (Super Admin only)
 r.get('/users', requireRole('SUPER_ADMIN'), asyncHandler(async (_req, res) => {
   const users = await prisma.user.findMany({
     select: { id: true, email: true, isActive: true, lastLoginAt: true, role: { select: { name: true } }, employee: { select: { firstName: true, lastName: true, employeeCode: true } } },
