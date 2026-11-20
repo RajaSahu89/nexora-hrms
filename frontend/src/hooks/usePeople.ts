@@ -2,7 +2,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { isHR } from '../types';
 import { useApi, useLookups } from './useApi';
 
-/** Employee options for selects. HR gets everyone, a manager gets their team, an employee gets nothing (self only). */
 export function usePeople() {
   const { user } = useAuth();
   const lk = useLookups();
