@@ -6,7 +6,6 @@ interface Props<T> {
   columns: string[]; items: T[]; getColumn: (i: T) => string; getId: (i: T) => string;
   render: (i: T) => ReactNode; onMove: (item: T, column: string) => void;
 }
-/** Drag & drop board (desktop). Cards also include a select (see renderers) so it works on touch screens. */
 export default function Kanban<T>({ columns, items, getColumn, getId, render, onMove }: Props<T>) {
   const [over, setOver] = useState<string | null>(null);
   return (
