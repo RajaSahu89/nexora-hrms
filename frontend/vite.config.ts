@@ -1,7 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// One command (`npm run dev` in the project root) starts API + web. /api and /uploads are proxied to the API.
 export default defineConfig({
   plugins: [react()],
   server: {
