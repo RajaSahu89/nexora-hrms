@@ -8,7 +8,6 @@ const id = z.string().min(1);
 const password = z.string().min(8, 'Min 8 characters').max(72)
   .regex(/[a-z]/, 'Needs a lowercase letter').regex(/[A-Z]/, 'Needs an uppercase letter').regex(/\d/, 'Needs a number');
 
-// ---------- auth ----------
 export const registerSchema = z.object({
   firstName: text(60).min(1), lastName: text(60).min(1),
   email: z.string().trim().toLowerCase().email(), password,
@@ -20,7 +19,6 @@ export const forgotSchema = z.object({ email: z.string().trim().toLowerCase().em
 export const resetSchema = z.object({ token: z.string().min(10), password });
 export const changePasswordSchema = z.object({ currentPassword: z.string().min(1), newPassword: password });
 
-// ---------- employees ----------
 const genderEnum = z.enum(['MALE', 'FEMALE', 'OTHER', 'PREFER_NOT_TO_SAY']);
 const empBase = z.object({
   firstName: text(60).min(1), lastName: text(60).min(1),
@@ -49,13 +47,11 @@ export const selfUpdateSchema = empBase.pick({
 export const bulkSchema = z.object({ action: z.enum(['activate', 'deactivate', 'delete']), ids: z.array(id).min(1).max(200) });
 export const importSchema = z.object({ rows: z.array(z.record(z.string())).min(1).max(500) });
 
-// ---------- org ----------
 export const departmentSchema = z.object({
   name: text(80).min(1), description: optText(500), budget: z.coerce.number().min(0).nullish(), headId: id.nullish(),
 });
 export const designationSchema = z.object({ title: text(80).min(1), level: z.coerce.number().int().min(1).max(20).default(1) });
 
-// ---------- attendance ----------
 export const correctionRequestSchema = z.object({ date: dateStr, reason: text(300).min(3) });
 export const correctSchema = z.object({
   approve: z.boolean().default(true),
@@ -65,7 +61,6 @@ export const correctSchema = z.object({
 });
 export const manualAttendanceSchema = correctSchema.extend({ employeeId: id, date: dateStr });
 
-// ---------- leave ----------
 export const leaveApplySchema = z.object({
   leaveTypeId: id, startDate: dateStr, endDate: dateStr, reason: text(500).min(3),
 });
@@ -76,7 +71,6 @@ export const leaveTypeSchema = z.object({
   description: optText(300),
 });
 
-// ---------- payroll ----------
 export const structureSchema = z.object({
   components: z.array(z.object({
     name: text(60).min(1), type: z.enum(['EARNING', 'DEDUCTION']),
@@ -88,7 +82,6 @@ export const payrollRunSchema = z.object({
   employeeIds: z.array(id).optional(), bonuses: z.record(z.coerce.number().min(0)).optional(),
 });
 
-// ---------- recruitment ----------
 export const vacancySchema = z.object({
   title: text(120).min(1), description: text(5000).min(1), requirements: optText(3000),
   departmentId: id.nullish(), designationId: id.nullish(), location: optText(100),
@@ -107,7 +100,6 @@ export const interviewUpdateSchema = z.object({
   rating: z.coerce.number().int().min(1).max(5).nullish(), feedback: optText(2000),
 });
 
-// ---------- performance ----------
 export const goalSchema = z.object({
   employeeId: id.optional(), title: text(150).min(1), description: optText(500),
   targetValue: z.coerce.number().nullish(), currentValue: z.coerce.number().nullish(),
@@ -122,7 +114,6 @@ export const managerReviewSchema = z.object({
   improvementPlan: optText(2000),
 });
 
-// ---------- tasks ----------
 export const taskSchema = z.object({
   title: text(150).min(1), description: optText(3000), assigneeId: id.nullish(),
   priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'URGENT']).default('MEDIUM'), dueDate: dateStr.nullish(),
@@ -133,7 +124,6 @@ export const taskUpdateSchema = taskSchema.partial().extend({
 });
 export const commentSchema = z.object({ body: text(1000).min(1) });
 
-// ---------- documents / announcements / settings ----------
 export const documentMetaSchema = z.object({
   title: text(150).min(1),
   category: z.enum(['OFFER_LETTER', 'APPOINTMENT_LETTER', 'EXPERIENCE_CERTIFICATE', 'IDENTITY', 'POLICY', 'OTHER']).default('OTHER'),
