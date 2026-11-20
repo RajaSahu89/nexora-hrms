@@ -7,7 +7,6 @@ export const api = axios.create({ baseURL: '/api', withCredentials: true });
 api.interceptors.request.use((c) => { if (accessToken) c.headers.Authorization = `Bearer ${accessToken}`; return c; });
 
 let refreshing: Promise<any> | null = null;
-/** Shared in-flight promise so React StrictMode / parallel 401s only rotate the cookie once. */
 export const refreshSession = () => {
   if (!refreshing) {
     refreshing = axios.post('/api/auth/refresh', {}, { withCredentials: true })
