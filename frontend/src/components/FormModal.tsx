@@ -15,12 +15,11 @@ interface Props {
   onSubmit: (values: any) => Promise<any>; onClose: () => void; successMessage?: string;
 }
 
-/** Reusable validated form (react-hook-form + zod) used by every create/edit dialog. */
 export default function FormModal({ open, title, fields, schema, defaultValues, submitLabel = 'Save', wide, onSubmit, onClose, successMessage }: Props) {
   const { register, handleSubmit, reset, formState: { errors, isSubmitting } } = useForm<any>({ resolver: zodResolver(schema) as any, defaultValues });
   const [serverErr, setServerErr] = useState('');
   const { toast } = useToast();
-  useEffect(() => { if (open) { reset(defaultValues); setServerErr(''); } }, [open]); // eslint-disable-line
+  useEffect(() => { if (open) { reset(defaultValues); setServerErr(''); } }, [open]);
 
   const submit = handleSubmit(async (v) => {
     setServerErr('');
