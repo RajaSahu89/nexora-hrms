@@ -3,19 +3,17 @@ import PDFDocument from 'pdfkit';
 
 export type Column = { key: string; label: string };
 
-/** Rows (array of objects) -> CSV text. BOM + CRLF so Excel opens it correctly. */
 export function toCsv(rows: Record<string, any>[]) {
   const cols = rows.length ? Object.keys(rows[0]) : [];
   const esc = (v: any) => {
     if (v == null) return '';
     let s = v instanceof Date ? v.toISOString().slice(0, 10) : String(v);
-    if (typeof v === 'string' && /^[=+\-@]/.test(s)) s = "'" + s; // CSV-injection guard
+    if (typeof v === 'string' && /^[=+\-@]/.test(s)) s = "'" + s;
     return /[",\n\r]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
   };
   return '\uFEFF' + [cols.map(esc).join(','), ...rows.map((r) => cols.map((c) => esc(r[c])).join(','))].join('\r\n');
 }
 
-/** Streams a simple landscape PDF table. */
 export function sendPdfTable(res: Response, title: string, rows: Record<string, any>[]) {
   const doc = new PDFDocument({ size: 'A4', layout: 'landscape', margin: 36 });
   res.setHeader('Content-Type', 'application/pdf');
