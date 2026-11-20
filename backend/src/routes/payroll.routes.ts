@@ -46,7 +46,6 @@ r.put('/salary/:employeeId', requireRole(...HR), validate(z.object({ basic: z.co
   res.json({ ok: true });
 }));
 
-// ---- Payroll runs ----
 r.get('/', requireRole(...HR), asyncHandler(async (req, res) => {
   const q: any = req.query;
   res.json(await prisma.payroll.findMany({
