@@ -5,7 +5,6 @@ import { MONTHS } from '../utils/format';
 export interface DayInfo { text?: string; tone?: 'green' | 'red' | 'amber' | 'blue' | 'gray' }
 const TONE = { green: 'bg-emerald-500/20', red: 'bg-accent/20', amber: 'bg-amber-500/25', blue: 'bg-primary/50', gray: 'bg-slate-500/15' };
 
-/** Month calendar. `days` maps YYYY-MM-DD -> label/tone. Used by attendance and leave calendars. */
 export default function MonthGrid({ month, onMonth, days }: { month: string; onMonth: (m: string) => void; days: Record<string, DayInfo> }) {
   const [y, m] = month.split('-').map(Number);
   const first = new Date(Date.UTC(y, m - 1, 1)).getUTCDay();
