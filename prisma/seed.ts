@@ -2,7 +2,7 @@ import { PrismaClient, RoleName, Gender, EmploymentType } from '@prisma/client';
 import bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
-const DEV_PASSWORD = 'Password@123'; // development only
+const DEV_PASSWORD = 'Password@123';
 
 const PERMISSIONS: Record<RoleName, string[]> = {
   SUPER_ADMIN: ['*'],
@@ -22,7 +22,6 @@ const PERMISSIONS: Record<RoleName, string[]> = {
 };
 
 async function main() {
-  // Roles + permissions
   const allKeys = [...new Set(Object.values(PERMISSIONS).flat())];
   for (const key of allKeys) {
     await prisma.permission.upsert({ where: { key }, update: {}, create: { key } });
@@ -40,8 +39,6 @@ async function main() {
       data: { permissions: { set: PERMISSIONS[name].map((key) => ({ key })) } },
     });
   }
-
-  // Departments & designations
   const deptNames = ['Engineering', 'Human Resources', 'Sales', 'Finance'];
   const depts: Record<string, string> = {};
   for (const name of deptNames) {
@@ -59,8 +56,6 @@ async function main() {
     });
     desigs[title] = d.id;
   }
-
-  // Users + employees
   const hash = await bcrypt.hash(DEV_PASSWORD, 12);
   const people = [
     { code: 'NX-0001', first: 'Sam', last: 'Admin', email: 'admin@nexora.test', role: 'SUPER_ADMIN', dept: 'Human Resources', title: 'CEO', gender: Gender.OTHER },
@@ -87,21 +82,17 @@ async function main() {
     });
     empIds[p.code] = emp.id;
   }
-  // Reporting lines + department heads
   for (const code of ['NX-0004', 'NX-0005']) {
     await prisma.employee.update({ where: { id: empIds[code] }, data: { managerId: empIds['NX-0003'] } });
   }
   await prisma.department.update({ where: { name: 'Engineering' }, data: { headId: empIds['NX-0003'] } });
   await prisma.department.update({ where: { name: 'Human Resources' }, data: { headId: empIds['NX-0002'] } });
-
-  // Salaries (monthly basic) so payroll can be generated
+  
   const salaries: Record<string, number> = { 'NX-0001': 90000, 'NX-0002': 60000, 'NX-0003': 80000, 'NX-0004': 50000, 'NX-0005': 45000, 'NX-0006': 40000 };
   for (const [code, basic] of Object.entries(salaries)) {
     const has = await prisma.salaryComponent.count({ where: { employeeId: empIds[code], name: 'Basic' } });
     if (!has) await prisma.salaryComponent.create({ data: { employeeId: empIds[code], name: 'Basic', type: 'EARNING', amount: basic, effectiveFrom: new Date('2024-01-15') } });
   }
-
-  // Leave types + balances for current year
   const leaveTypes = [
     { name: 'Casual Leave', code: 'CL', days: 12, paid: true },
     { name: 'Sick Leave', code: 'SL', days: 10, paid: true },
@@ -124,8 +115,6 @@ async function main() {
       });
     }
   }
-
-  // Holidays
   for (const h of [
     { name: 'New Year', date: `${year}-01-01` },
     { name: 'Independence Day', date: `${year}-08-15` },
@@ -133,8 +122,6 @@ async function main() {
   ]) {
     await prisma.holiday.upsert({ where: { date: new Date(h.date) }, update: {}, create: { name: h.name, date: new Date(h.date) } });
   }
-
-  // Company settings
   const settings: Record<string, unknown> = {
     'company.profile': { name: 'Nexora Technologies', logoUrl: null, timezone: 'UTC', currency: 'INR', email: 'hr@nexora.test', phone: '', address: '' },
     'attendance.rules': { workStart: '09:00', workEnd: '18:00', graceMinutes: 10, halfDayHours: 4, fullDayHours: 8 },
@@ -143,9 +130,6 @@ async function main() {
   for (const [key, value] of Object.entries(settings)) {
     await prisma.companySetting.upsert({ where: { key }, update: {}, create: { key, value: value as object } });
   }
-
-
-  // ---- Demo data (only on a fresh database) ----
   if ((await prisma.attendance.count()) === 0) {
     const now = new Date();
     for (let i = 1; i <= 14; i++) {
