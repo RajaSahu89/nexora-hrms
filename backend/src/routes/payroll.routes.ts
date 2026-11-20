@@ -27,7 +27,6 @@ const compute = (p: { basic: number; allowances: number; fixedDeductions: number
   return { hra, overtimePay, grossPay, tax, deductions: round(p.fixedDeductions), netPay: round(grossPay - tax - p.fixedDeductions) };
 };
 
-// ---- Salary structure (HR only; employees may read their own) ----
 r.get('/salary/:employeeId', asyncHandler(async (req, res) => {
   if (!isHR(req.auth!.role) && req.params.employeeId !== req.auth!.employeeId) throw new AppError(403, 'Forbidden');
   const rows = await prisma.salaryComponent.findMany({ where: { employeeId: req.params.employeeId }, orderBy: { effectiveFrom: 'desc' } });
